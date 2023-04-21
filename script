@@ -1,0 +1,52 @@
+import scipy.stats as stats
+import numpy as np
+
+#Project: monitoring defective products in a factory using Poisson distribution
+#expected number of defects is 7/day
+
+## variable representing rate parameter of the distribution
+lam = 7
+## the probability of observing exactly the rate parameter on any given day
+print(stats.poisson.pmf(7, 7))
+#0.149
+
+## the probability of having 4 or fewer defects:
+print(stats.poisson.cdf(4, 7))
+#0.173
+
+## the probability of having more than 9 defects:
+print(1 - stats.poisson.cdf(9, 7))
+#0.170
+
+### The distribution in practice
+## variable with 365 random values
+year_defects = stats.poisson.rvs(7, size = 365)
+print(year_defects[0:20])
+
+#expected defects over 365 days:
+print(7*365)
+#2555
+
+## sum of year_defects
+print(sum(year_defects))
+
+#average defects per day
+print(np.mean(year_defects))
+#6.84 #close to lambda 7
+
+#maximum value of year defects
+print(year_defects.max())
+#18
+
+#Probability of observing the max defects
+print(1- stats.poisson.cdf(18, 7))
+#0.00013
+
+#calculate the 90th percentile of the poisson distribution
+
+print(stats.poisson.ppf(.90, 7))
+#10
+
+#calculate which proportion of the dataset is >= the 90th percentile
+
+print(sum(year_defects >= 10)/len(year_defects))
